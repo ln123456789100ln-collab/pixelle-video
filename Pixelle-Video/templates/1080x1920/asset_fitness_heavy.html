@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="template:media-width" content="1024">
+    <meta name="template:media-height" content="1024">
+    <style>
+        {{font_import}}
+        html, body {
+            margin: 0; padding: 0;
+            width: 1080px; height: 1920px;
+            overflow: hidden;
+        }
+        body {
+            font-family: '{{font_name=PingFang SC}}', 'PingFang SC', 'Source Han Sans', 'Microsoft YaHei', sans-serif;
+            background: transparent;
+        }
+        .page-container {
+            width: 1080px; height: 1920px;
+            position: relative; overflow: hidden;
+        }
+        .background-layer {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: 0;
+        }
+        .background-layer img, .background-layer video {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+        }
+        .background-layer:empty { display: none; }
+
+        /* Heavy: 顶部标题大号 + 底部强渐变 + 超大加粗字幕 */
+        .gradient-overlay {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: 1;
+            background: linear-gradient(to bottom,
+                rgba(0,0,0,0.30) 0%,
+                rgba(0,0,0,0.00) 25%,
+                rgba(0,0,0,0.00) 55%,
+                rgba(0,0,0,0.90) 100%);
+        }
+        .content-layer {
+            position: relative; z-index: 2;
+            width: 100%; height: 100%;
+            padding: 80px 70px 0px 70px;
+            box-sizing: border-box;
+            display: flex; flex-direction: column;
+            justify-content: flex-start;
+            color: {{text_color=#ffffff}};
+        }
+        .video-title {
+            font-size: 72px; font-weight: 900;
+            line-height: 1.2; text-align: center;
+            margin-bottom: 24px;
+            color: {{text_color=#ffffff}};
+            text-shadow: 0 0 32px rgba(0,0,0,0.9), 0 6px 16px rgba(0,0,0,0.6);
+        }
+        .video-title:empty { display: none; }
+        .spacer { flex-grow: 1; }
+        .subtitle-wrapper {
+            margin-bottom: 60px; text-align: center;
+        }
+        .text-pill {
+            display: inline-block;
+            max-width: 94%;
+            padding: 28px 48px;
+            border-radius: 18px;
+            font-size: {{text_size=52}}px;
+            font-weight: 800;
+            line-height: 1.45;
+            color: #ffffff;
+            word-break: break-word;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(14px);
+            border: 2px solid rgba(255,255,255,0.12);
+            -webkit-text-stroke: 3px rgba(0,0,0,0.8);
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 0 18px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="background-layer" id="bg-layer"></div>
+        <div class="gradient-overlay"></div>
+        <div class="content-layer">
+            <div class="video-title">{{title}}</div>
+            <div class="spacer"></div>
+            <div class="subtitle-wrapper">
+                <span class="text-pill">{{text}}</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var imageUrl = "{{image}}";
+            var bgLayer = document.getElementById('bg-layer');
+            if (imageUrl && imageUrl.trim() !== "" && imageUrl !== "None") {
+                var ext = imageUrl.split('.').pop().toLowerCase().split('?')[0];
+                if (['mp4','mov','webm','avi'].indexOf(ext) >= 0) {
+                    // Video: skip rendering — overlaid downstream via overlay_image_on_video()
+                } else {
+                    var img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.alt = "";
+                    bgLayer.appendChild(img);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

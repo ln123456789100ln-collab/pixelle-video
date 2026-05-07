@@ -1,0 +1,27 @@
+# Bundled runtime (too large for git, user downloads separately)
+python/
+tools/
+
+# User data & generated content
+output/
+temp/
+data/
+Pixelle-Video/output/
+Pixelle-Video/temp/
+Pixelle-Video/data/
+
+# Python
+Pixelle-Video/__pycache__/
+Pixelle-Video/.venv/
+Pixelle-Video/*.egg-info/
+Pixelle-Video/.eggs/
+
+# Git submodules / nested repos
+Pixelle-Video/.git/
+
+# Config with secrets
+Pixelle-Video/config.yaml
+
+# OS
+.DS_Store
+Thumbs.db
